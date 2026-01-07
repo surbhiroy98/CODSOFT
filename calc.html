@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <link rel="stylesheet" href="calcstyle.css">
+</head>
+<body>
+    <div class="blue-calc-body">
+    <div class="calc-screen">
+        <div id="display" class="screen-text">0</div>
+    </div>
+    
+    <div class="calc-keypad">
+        <button onclick="clearDisplay()" class="util-btn span-two">AC</button>
+        <button onclick="deleteLast()" class="util-btn">DEL</button>
+        <button onclick="setOp('/')" class="op-btn">÷</button>
+        
+        <button onclick="addNum('7')" class="num-btn">7</button>
+        <button onclick="addNum('8')" class="num-btn">8</button>
+        <button onclick="addNum('9')" class="num-btn">9</button>
+        <button onclick="setOp('*')" class="op-btn">×</button>
+        
+        <button onclick="addNum('4')" class="num-btn">4</button>
+        <button onclick="addNum('5')" class="num-btn">5</button>
+        <button onclick="addNum('6')" class="num-btn">6</button>
+        <button onclick="setOp('-')" class="op-btn">-</button>
+        
+        <button onclick="addNum('1')" class="num-btn">1</button>
+        <button onclick="addNum('2')" class="num-btn">2</button>
+        <button onclick="addNum('3')" class="num-btn">3</button>
+        <button onclick="setOp('+')" class="op-btn">+</button>
+        
+        <button onclick="addNum('0')" class="num-btn span-two">0</button>
+        <button onclick="addNum('.')" class="num-btn">.</button>
+        <button onclick="solve()" class="eq-btn">=</button>
+    </div>
+</div>
+</body>
+
+
+<script>
+    let currentInput = "0";
+
+function addNum(num) {
+    if (currentInput === "0") {
+        currentInput = num;
+    } else {
+        currentInput += num;
+    }
+    updateDisplay();
+}
+
+function setOp(op) {
+    currentInput += " " + op + " ";
+    updateDisplay();
+}
+
+function updateDisplay() {
+    document.getElementById('display').innerText = currentInput;
+}
+
+function solve() {
+    try {
+        // Using eval for basic Level 1 project logic
+        currentInput = eval(currentInput).toString();
+        updateDisplay();
+    } catch (e) {
+        currentInput = "Error";
+        updateDisplay();
+    }
+}
+
+// Resets the entire calculator
+function clearDisplay() {
+    currentInput = "0";
+    updateDisplay();
+}
+
+// Removes only the last character entered
+function deleteLast() {
+    if (currentInput.length > 1) {
+        currentInput = currentInput.slice(0, -1);
+    } else {
+        currentInput = "0";
+    }
+    updateDisplay();
+}
+
+// Updated solve function to handle empty strings
+function solve() {
+    try {
+        // We trim the input to ensure no trailing operators cause errors
+        let result = eval(currentInput.trim());
+        currentInput = result.toString();
+        updateDisplay();
+    } catch (e) {
+        currentInput = "Error";
+        updateDisplay();
+        setTimeout(clearDisplay, 1500); // Clear error after 1.5 seconds
+    }
+}
+</script>
+</html>
